@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         MAVEN_HOME = "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9"
+        SONAR_SCANNER_HOME = tool 'SonarScanner'
     }
 
     stages {
@@ -30,9 +31,9 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                // Run SonarQube analysis via Maven using the properties file
-                  bat "\"%MAVEN_HOME%\\bin\\mvn\" sonar:sonar -Dproject.settings=sonar-project.properties"
-
+                withSonarQubeEnv('MySonarServer') {  // the name you gave in Jenkins config
+                    sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+                }
             }
         }
 
