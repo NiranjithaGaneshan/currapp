@@ -30,8 +30,8 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                // Run SonarScanner using sonar-project.properties in the project root
-                bat 'sonar-scanner'
+                // Run SonarQube analysis via Maven using the properties file
+                bat "\"%MAVEN_HOME%\\bin\\mvn\" sonar:sonar -Dproject.settings=sonar-project.properties"
             }
         }
 
