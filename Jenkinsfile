@@ -12,8 +12,8 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                // Build project using Maven with your settings.xml for Nexus credentials
-                bat 'mvn clean install -s %USERPROFILE%\\.m2\\settings.xml'
+                // Build project using Maven with the correct settings.xml path
+                bat 'mvn clean install -s "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9\\conf\\settings.xml"'
             }
         }
 
@@ -39,10 +39,10 @@ pipeline {
         }
 
         stage('Deploy to Nexus / Sonatype') {
-            steps {
-                // Deploy artifact to Nexus using credentials in settings.xml
-                bat 'mvn deploy -s %USERPROFILE%\\.m2\\settings.xml'
-            }
+           steps {
+               // Deploy artifact to Nexus using the same settings.xml
+               bat 'mvn deploy -s "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9\\conf\\settings.xml"'
+           }
         }
 
         stage('Deploy to Tomcat') {
