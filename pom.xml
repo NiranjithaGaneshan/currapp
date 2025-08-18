@@ -149,9 +149,19 @@
 		</plugins>
 	</build>
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ra-snapshots</id>
-			<url>http://localhost:8081/repository/ra-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <!-- Release repository -->
+    <repository>
+        <id>nexus-releases</id>
+        <name>WebApp Release Repository</name>
+        <url>http://localhost:8081/repository/webapp-release/</url>
+    </repository>
+
+    <!-- Snapshot repository -->
+    <snapshotRepository>
+        <id>nexus-snapshots</id>
+        <name>WebApp Snapshot Repository</name>
+        <url>http://localhost:8081/repository/webapp-snapshot/</url>
+    </snapshotRepository>
+</distributionManagement>
+
 </project>
