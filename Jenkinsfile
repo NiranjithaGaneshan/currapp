@@ -38,9 +38,13 @@ pipeline {
         }
 
         stage('Snyk Scan') {
-            steps {
-                // Run Snyk security scan
-                bat 'snyk test'
+           steps {
+                snykSecurity(
+                    snykInstallation: 'snyk-cli',
+                    snykTokenId: 'snyk-token',
+                    monitorProjectOnBuild: true,
+                    failOnIssues: true
+                )
             }
         }
 
