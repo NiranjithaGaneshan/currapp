@@ -6,6 +6,7 @@ pipeline {
         stage('Clone Git Repository') {
             steps {
                 // Clone your repository from GitHub
+                bat 'rmdir /S /Q currapp'
                 bat 'git clone -b master https://github.com/NiranjithaGaneshan/currapp.git'
             }
         }
