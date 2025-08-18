@@ -31,7 +31,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 // Run SonarQube analysis via Maven using the properties file
-                bat "\"%MAVEN_HOME%\\bin\\mvn\" sonar:sonar -Dproject.settings=sonar-project.properties"
+                bat "\"%MAVEN_HOME%\\bin\\mvn\" sonar:sonar -Dsonar.login=sqp_b1ab42f4ccd9ca3b36929c05759ee71c0d667025"
             }
         }
 
