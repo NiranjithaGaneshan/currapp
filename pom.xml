@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.rautomates.cc</groupId>
-	<artifactId>raccsb</artifactId>
+	<artifactId>currency-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -83,7 +83,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>raccsb</finalName>
+		<finalName>currency-app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -115,7 +115,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<serverId>ra-snapshots</serverId>
+					<serverId>nexus-snapshots</serverId>
 					<nexusUrl>http://localhost:8081/</nexusUrl>
 					<skipStaging>true</skipStaging>
 				</configuration>
