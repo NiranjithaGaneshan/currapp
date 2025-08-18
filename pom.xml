@@ -4,13 +4,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.rautomates.cc</groupId>
+	<!-- UPDATED PROJECT INFO -->
+	<groupId>com.currency-app</groupId>
 	<artifactId>currency-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>ra-currency-converter</name>
-	<description>Sample project by rautomates for demo</description>
+	<name>currency-app</name>
+	<description>Currency converter app</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -24,6 +25,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>17</java.version>
 		<jacoco.version>0.8.8</jacoco.version>
+
+		<!-- Sonar -->
+		<sonar.projectKey>com.currency.app</sonar.projectKey>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
@@ -53,8 +57,7 @@
 			<version>23.5-jre</version>
 		</dependency>
 
-		<!--WebJars -->
-
+		<!-- WebJars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
@@ -66,8 +69,6 @@
 			<version>2.1.4</version>
 		</dependency>
 
-		<!--/WebJars -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -75,11 +76,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.jacoco</groupId> 
+			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.11</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -89,18 +89,18 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<inherited>true</inherited>
-
 				<configuration>
 					<source>17</source>
 					<target>17</target>
-
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.4.0</version><!--$NO-MVN-MAN-VER$-->
+				<version>3.4.0</version>
 			</plugin>
 
+			<!-- Nexus Plugin -->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -120,12 +120,13 @@
 					<skipStaging>true</skipStaging>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -148,20 +149,20 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<distributionManagement>
-    <!-- Release repository -->
-    <repository>
-        <id>nexus-releases</id>
-        <name>WebApp Release Repository</name>
-        <url>http://localhost:8081/repository/webapp-release/</url>
-    </repository>
+		<!-- Release repository -->
+		<repository>
+			<id>nexus-releases</id>
+			<name>WebApp Release Repository</name>
+			<url>http://localhost:8081/repository/webapp-release/</url>
+		</repository>
 
-    <!-- Snapshot repository -->
-    <snapshotRepository>
-        <id>nexus-snapshots</id>
-        <name>WebApp Snapshot Repository</name>
-        <url>http://localhost:8081/repository/webapp-snapshot/</url>
-    </snapshotRepository>
-</distributionManagement>
-
+		<!-- Snapshot repository -->
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>WebApp Snapshot Repository</name>
+			<url>http://localhost:8081/repository/webapp-snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
