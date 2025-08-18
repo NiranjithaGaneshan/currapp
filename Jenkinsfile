@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         MAVEN_HOME = "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9"
-        SONAR_SCANNER_HOME = tool 'SonarScanner'
+        SONAR_SCANNER_HOME = tool 'MySonarScanner'
     }
 
     stages {
