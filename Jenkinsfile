@@ -1,34 +1,37 @@
 pipeline {
     agent any
 
+    environment {
+        MAVEN_HOME = "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9"
+    }
+
     stages {
 
-        stage('Clone Git Repository') {
+        stage('Checkout Code') {
             steps {
-                // Clone your repository from GitHub
-                bat 'rmdir /S /Q currapp'
-                bat 'git clone -b master https://github.com/NiranjithaGaneshan/currapp.git'
+                // Checkout repository configured in the Jenkins job
+                checkout scm
             }
         }
 
         stage('Build with Maven') {
             steps {
                 // Build project using Maven with the correct settings.xml path
-                bat 'mvn clean install -s "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9\\conf\\settings.xml"'
+                bat "\"%MAVEN_HOME%\\bin\\mvn\" clean install -s \"%MAVEN_HOME%\\conf\\settings.xml\""
             }
         }
 
         stage('Unit Test & Jacoco') {
             steps {
                 // Run unit tests and generate Jacoco report
-                bat 'mvn test'
+                bat "\"%MAVEN_HOME%\\bin\\mvn\" test"
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                // Analyze project using SonarQube
-                bat 'mvn sonar:sonar'
+                // Run SonarScanner using sonar-project.properties in the project root
+                bat 'sonar-scanner'
             }
         }
 
@@ -42,7 +45,7 @@ pipeline {
         stage('Deploy to Nexus / Sonatype') {
            steps {
                // Deploy artifact to Nexus using the same settings.xml
-               bat 'mvn deploy -s "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9\\conf\\settings.xml"'
+               bat "\"%MAVEN_HOME%\\bin\\mvn\" deploy -s \"%MAVEN_HOME%\\conf\\settings.xml\""
            }
         }
 
