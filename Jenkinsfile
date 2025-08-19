@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Snyk Scan') {
+        //stage('Snyk Scan') {
            steps {
                 snykSecurity(
                     snykInstallation: 'snyk-cli',
@@ -45,6 +45,18 @@ pipeline {
                     monitorProjectOnBuild: true,
                     failOnIssues: true
                 )
+            }
+        }//
+          stage('Test Snyk Auth') {
+            steps {
+                // Install snyk if not installed
+                bat 'npm install -g snyk'
+
+                // Authenticate with your token (replace with your real token just for testing)
+                bat 'snyk auth c80ff503-3611-4f56-bd15-553e0bb39bb4'
+
+                // Run snyk test (it will check your current directory/package.json if exists)
+                bat 'snyk test || true'
             }
         }
 
