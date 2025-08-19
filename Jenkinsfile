@@ -37,30 +37,17 @@ pipeline {
             }
         }
 
-        // 🚨 FIX: Previously your Snyk Scan stage was broken (bad braces)
-        stage('Snyk Scan (Plugin)') {
+        stage('Snyk Scan') {
             steps {
-                snykSecurity(
-                    snykInstallation: 'snyk-cli',
-                    snykTokenId: 'snyk-token',
-                    monitorProjectOnBuild: true,
-                    failOnIssues: true
+                 snykSecurity(
+                  snykInstallation: 'snyk-cli',   // Tool name from Global Tool Config
+                  snykTokenId: 'snyk-token',      // The ID you gave when adding credentials
+                  monitorProjectOnBuild: true,
+                  failOnIssues: true
                 )
-            }
-        }
+           }
+       }
 
-        stage('Test Snyk Auth (Hardcoded)') {
-            steps {
-                // Install snyk if not installed
-                bat 'npm install -g snyk'
-
-                // Authenticate with your token (⚠️ only for testing!)
-                bat 'snyk auth c80ff503-3611-4f56-bd15-553e0bb39bb4'
-
-                // Run snyk test (check package.json dependencies)
-                bat 'snyk test || exit 0'
-            }
-        }
 
         stage('Deploy to Nexus / Sonatype') {
             steps {
