@@ -32,13 +32,14 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('MySonarServer') {  // the name you gave in Jenkins config
-                    bat "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+                    bat "${SONAR_SCANNER_HOME}\\bin\\sonar-scanner -Dproject.settings=sonar-project.properties"
                 }
             }
         }
 
-        //stage('Snyk Scan') {
-           steps {
+        // 🚨 FIX: Previously your Snyk Scan stage was broken (bad braces)
+        stage('Snyk Scan (Plugin)') {
+            steps {
                 snykSecurity(
                     snykInstallation: 'snyk-cli',
                     snykTokenId: 'snyk-token',
@@ -46,25 +47,26 @@ pipeline {
                     failOnIssues: true
                 )
             }
-        }//
-          stage('Test Snyk Auth') {
+        }
+
+        stage('Test Snyk Auth (Hardcoded)') {
             steps {
                 // Install snyk if not installed
                 bat 'npm install -g snyk'
 
-                // Authenticate with your token (replace with your real token just for testing)
+                // Authenticate with your token (⚠️ only for testing!)
                 bat 'snyk auth c80ff503-3611-4f56-bd15-553e0bb39bb4'
 
-                // Run snyk test (it will check your current directory/package.json if exists)
-                bat 'snyk test || true'
+                // Run snyk test (check package.json dependencies)
+                bat 'snyk test || exit 0'
             }
         }
 
         stage('Deploy to Nexus / Sonatype') {
-           steps {
-               // Deploy artifact to Nexus using the same settings.xml
-               bat "\"%MAVEN_HOME%\\bin\\mvn\" deploy -s \"%MAVEN_HOME%\\conf\\settings.xml\""
-           }
+            steps {
+                // Deploy artifact to Nexus using the same settings.xml
+                bat "\"%MAVEN_HOME%\\bin\\mvn\" deploy -s \"%MAVEN_HOME%\\conf\\settings.xml\""
+            }
         }
 
         stage('Deploy to Tomcat') {
