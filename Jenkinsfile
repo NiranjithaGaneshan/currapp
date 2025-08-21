@@ -37,16 +37,18 @@ pipeline {
             }
         }
 
-        stage('Snyk Scan') {
-            steps {
-                 snykSecurity(
-                  snykInstallation: 'snyk-cli',   // Tool name from Global Tool Config
-                  snykTokenId: 'snyk-token',      // The ID you gave when adding credentials
-                  monitorProjectOnBuild: true,
-                  failOnIssues: true
-                )
-           }
-       }
+       stage('Snyk Scan') {
+    steps {
+        snykSecurity(
+            snykInstallation: 'snyk-cli',       // Global tool config
+            snykTokenId: 'snyk-token',          // Credentials ID
+            monitorProjectOnBuild: true,
+            failOnIssues: true,
+            additionalArguments: '--json --no-ansi'
+        )
+    }
+}
+
 
 
         stage('Deploy to Nexus / Sonatype') {
