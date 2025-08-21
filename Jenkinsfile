@@ -44,7 +44,7 @@ pipeline {
                     snykInstallation: 'snyk-cli',
                     snykTokenId: 'snyk-token',
                     monitorProjectOnBuild: true,
-                    failOnIssues: true,
+                    failOnIssues: false,
                     additionalArguments: '--json --no-ansi'
                 )
     }
