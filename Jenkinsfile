@@ -39,15 +39,18 @@ pipeline {
 
        stage('Snyk Scan') {
     steps {
-        snykSecurity(
-            snykInstallation: 'snyk-cli',       // Global tool config
-            snykTokenId: 'snyk-token',          // Credentials ID
-            monitorProjectOnBuild: true,
-            failOnIssues: true,
-            additionalArguments: '--json --no-ansi'
-        )
+        withEnv(["JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8"]) {
+            snykSecurity(
+                snykInstallation: 'snyk-cli',
+                snykTokenId: 'snyk-token',
+                monitorProjectOnBuild: true,
+                failOnIssues: true,
+                additionalArguments: '--json --no-ansi'
+            )
+        }
     }
 }
+
 
 
 
