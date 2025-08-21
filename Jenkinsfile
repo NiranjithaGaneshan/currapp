@@ -4,6 +4,7 @@ pipeline {
     environment {
         MAVEN_HOME = "C:\\ProgramData\\chocolatey\\lib\\maven\\apache-maven-3.9.9"
         SONAR_SCANNER_HOME = tool 'MySonarScanner'
+        JAVA_TOOL_OPTIONS = "-Dfile.encoding=UTF-8"
     }
 
     stages {
@@ -39,15 +40,13 @@ pipeline {
 
        stage('Snyk Scan') {
     steps {
-        withEnv(["JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8"]) {
-            snykSecurity(
-                snykInstallation: 'snyk-cli',
-                snykTokenId: 'snyk-token',
-                monitorProjectOnBuild: true,
-                failOnIssues: true,
-                additionalArguments: '--json --no-ansi'
-            )
-        }
+        snykSecurity(
+                    snykInstallation: 'snyk-cli',
+                    snykTokenId: 'snyk-token',
+                    monitorProjectOnBuild: true,
+                    failOnIssues: true,
+                    additionalArguments: '--json --no-ansi'
+                )
     }
 }
 
