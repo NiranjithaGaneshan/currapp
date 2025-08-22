@@ -63,7 +63,7 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 // Copy the WAR file to Tomcat webapps folder on Windows
-                bat 'copy target\\currency-app.war "C:\\Program Files\\apache-tomcat-9.0.108-src\\webapps\\"'
+                bat 'copy target\\currency-app.war "C:\\apache-tomcat-9.0.108\\webapps\\"'
             }
         }
 
