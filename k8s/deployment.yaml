@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-app-deployment
+  namespace: currency-app-ns
+  labels:
+    app: currency-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: currency-app
+  template:
+    metadata:
+      labels:
+        app: currency-app
+    spec:
+      containers:
+        - name: currency-app
+          image: niru262000/currency-app:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: currency-app-storage
+              mountPath: /usr/local/tomcat/webapps
+      volumes:
+        - name: currency-app-storage
+          persistentVolumeClaim:
+            claimName: currency-app-pvc

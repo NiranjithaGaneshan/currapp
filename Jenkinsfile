@@ -84,6 +84,24 @@ pipeline {
     }
 }
 
+stage('Deploy to Kubernetes') {
+    steps {
+        // Create namespace
+        bat 'kubectl apply -f k8s/namespace.yaml'
+
+        // Apply PersistentVolumeClaim
+        bat 'kubectl apply -f k8s/pvc.yaml'
+
+        // Deploy the application
+        bat 'kubectl apply -f k8s/deployment.yaml'
+
+        // Expose the application using Service
+        bat 'kubectl apply -f k8s/service.yaml'
+
+        // Optional: Check all resources in the namespace
+        bat 'kubectl get all -n currency-app-ns'
+    }
+}
 
     }
 

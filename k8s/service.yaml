@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-app-service
+  namespace: currency-app-ns
+spec:
+  selector:
+    app: currency-app
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 9090        # Port exposed inside the cluster
+      targetPort: 9090  # Port in the container (Tomcat)
+      nodePort: 30007   # External port to access via node IP
