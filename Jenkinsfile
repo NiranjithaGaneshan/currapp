@@ -11,7 +11,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                // Checkout repository configured in the Jenkins job
+                // Checkout repository configured in the Jenkins job.....
                 checkout scm
             }
         }
