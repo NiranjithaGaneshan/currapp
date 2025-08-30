@@ -69,12 +69,21 @@ pipeline {
         }
         */
 
-        stage('Build Docker Image') {
-            steps {
-                // Build Docker image from Dockerfile
-                bat 'docker build -t currency-app:latest .'
-            }
+        stage('Push Docker Image to Hub') {
+    steps {
+        // Login to Docker Hub (Jenkins credentials store)
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
         }
+        
+        // Tag the image for Docker Hub
+        bat 'docker tag currency-app:latest niru262000/currency-app:latest'
+        
+        // Push the image
+        bat 'docker push niru262000/currency-app:latest'
+    }
+}
+
 
     }
 
