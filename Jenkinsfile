@@ -84,22 +84,28 @@ pipeline {
     }
 }
 
-stage('Deploy to Kubernetes') {
+stage('Deploy to Kubernetes (K3s)') {
     steps {
-        // Create namespace
-        bat 'kubectl apply -f k8s/namespace.yaml'
+        script {
+             Start K3s cluster using Docker
+            bat '''
+            docker run -d --name k3s-server --privileged rancher/k3s:v1.27.5-k3s1
+            '''
 
-        // Apply PersistentVolumeClaim
-        bat 'kubectl apply -f k8s/pvc.yaml'
+            // Wait a few seconds for the cluster to be ready
+            bat 'timeout /t 10'
 
-        // Deploy the application
-        bat 'kubectl apply -f k8s/deployment.yaml'
+            // Set KUBECONFIG to connect kubectl with the cluster
+            bat 'docker exec k3s-server cat /etc/rancher/k3s/k3s.yaml > kubeconfig.yaml'
+            bat 'set KUBECONFIG=kubeconfig.yaml'
 
-        // Expose the application using Service
-        bat 'kubectl apply -f k8s/service.yaml'
+            // Apply Kubernetes YAML files
+            bat 'kubectl apply -f k8s/namespace.yaml'
+            bat 'kubectl apply -f k8s/pvc.yaml'
+            bat 'kubectl apply -f k8s/deployment.yaml'
+            bat 'kubectl apply -f k8s/service.yaml'
 
-        // Optional: Check all resources in the namespace
-        bat 'kubectl get all -n currency-app-ns'
+                  }
     }
 }
 
