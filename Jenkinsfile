@@ -84,31 +84,28 @@ pipeline {
     }
 }
 
-stage('Deploy to Kubernetes (K3s)') {
+stage('Deploy to Kubernetes (Minikube)') {
     steps {
-        script {
-             Start K3s cluster using Docker
-            bat '''
-            docker run -d --name k3s-server --privileged rancher/k3s:v1.27.5-k3s1
-            '''
+        echo "Deploying application to Minikube..."
 
-            // Wait a few seconds for the cluster to be ready
-            bat 'timeout /t 10'
+        // Set kubeconfig to point to local Minikube (optional if default is fine)
+        bat 'kubectl config use-context minikube'
 
-            // Set KUBECONFIG to connect kubectl with the cluster
-            bat 'docker exec k3s-server cat /etc/rancher/k3s/k3s.yaml > kubeconfig.yaml'
-            bat 'set KUBECONFIG=kubeconfig.yaml'
+        // Apply namespace
+        bat 'kubectl apply -f k8s/namespace.yaml'
 
-            // Apply Kubernetes YAML files
-            bat 'kubectl apply -f k8s/namespace.yaml'
-            bat 'kubectl apply -f k8s/pvc.yaml'
-            bat 'kubectl apply -f k8s/deployment.yaml'
-            bat 'kubectl apply -f k8s/service.yaml'
+        // Apply PVC (if you created separate YAML)
+        bat 'kubectl apply -f k8s/pvc.yaml'
 
-                  }
+        // Apply deployment
+        bat 'kubectl apply -f k8s/deployment.yaml'
+
+        // Apply service
+        bat 'kubectl apply -f k8s/service.yaml'
+
+        echo "Deployment completed. You can access the app at http://localhost:30007"
     }
 }
-
     }
 
     post {
