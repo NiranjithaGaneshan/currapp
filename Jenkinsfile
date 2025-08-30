@@ -60,10 +60,19 @@ pipeline {
             }
         }
 
+        // Commented out Tomcat deployment
+        /*
         stage('Deploy to Tomcat') {
             steps {
-                // Copy the WAR file to Tomcat webapps folder on Windows
                 bat 'copy target\\currency-app.war "C:\\apache-tomcat-9.0.108\\webapps\\"'
+            }
+        }
+        */
+
+        stage('Build Docker Image') {
+            steps {
+                // Build Docker image from Dockerfile
+                bat 'docker build -t currency-app:latest .'
             }
         }
 
